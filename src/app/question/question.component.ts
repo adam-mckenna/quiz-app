@@ -6,14 +6,7 @@ import { Router } from '@angular/router';
   selector: 'question',
   standalone: true,
   template: `
-    <div>
-      <h2>Question</h2>
-      <h3>Team 1</h3>
-      {{ this.quizService.team1Name() }}
-
-      <h3>Team 2</h3>
-      {{ this.quizService.team2Name() }}
-    </div>
+    <h2>Question</h2>
 
     @if (this.quizService.activeTeam()) {
       <dialog open="true">
@@ -55,8 +48,7 @@ export class QuestionComponent {
   handleCorrectAnswer() {
     if (!this.quizService.activeTeam()) return;
     this.quizService.addPoints(this.quizService.activeTeam(), 5);
-
-    // navigate to round
+    this.router.navigate(['/round']);
   }
 
   handleWrongAnswer(hasInterrupted?: boolean) {
