@@ -43,7 +43,9 @@ export class QuestionComponent {
   constructor(
     public quizService: QuizService,
     private router: Router,
-  ) {}
+  ) {
+    this.quizService.activeTeam.set(0);
+  }
 
   handleCorrectAnswer() {
     if (!this.quizService.activeTeam()) return;

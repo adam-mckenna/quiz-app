@@ -14,6 +14,8 @@ export class QuizService {
   // base, bonus, solid
   roundQuestionLevel = signal<1 | 2 | 3>(1);
 
+  roundTally = signal<number>(0);
+
   setTeam1Name(name: string) {
     this.team1Name.set(name);
   }
@@ -28,6 +30,11 @@ export class QuizService {
 
   getTeamName(team: 1 | 2 | 0) {
     return team === 1 ? this.team1Name() : this.team2Name();
+  }
+
+  getOpposingTeam() {
+    if (this.activeTeam() === 0) return 0;
+    return this.activeTeam() == 1 ? 2 : 1;
   }
 
   addPoints(team: 0 | 1 | 2, points: number) {
