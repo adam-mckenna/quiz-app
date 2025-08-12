@@ -1,15 +1,19 @@
-<main>
-  <router-outlet />
+<main class="h-dvh">
+  <div class="flex items-center h-9/12 justify-center">
+    <router-outlet />
+  </div>
 
-  <footer>
-    <section>
+  <footer
+    class="flex h-3/12 gap-16 justify-center items-center w-full p-8 fixed bottom-0"
+  >
+    <section class="text-center text-xl">
       <h2>{{ this.quizService.team1Name() }}</h2>
       <p>
         {{ this.quizService.team1Score() }}
       </p>
     </section>
 
-    <section>
+    <section class="text-center text-xl">
       <h2>{{ this.quizService.team2Name() }}</h2>
       <p>
         {{ this.quizService.team2Score() }}

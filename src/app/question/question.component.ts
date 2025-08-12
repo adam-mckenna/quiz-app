@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { QuizService } from '../services/quiz.service';
 import { Router } from '@angular/router';
+import { TtsService } from '../services/textToSpeech.service';
 
 @Component({
   selector: 'question',
@@ -42,6 +43,7 @@ export class QuestionComponent {
 
   constructor(
     public quizService: QuizService,
+    public tts: TtsService,
     private router: Router,
   ) {
     this.quizService.activeTeam.set(0);
@@ -75,9 +77,18 @@ export class QuestionComponent {
     if (this.quizService.activeTeam()) return;
     if (key === 'Enter') {
       this.quizService.activeTeam.set(1);
+      this.tts.speak(this.quizService.getTeamName(1)).subscribe((res: any) => {
+        const audioContent = res.audioContent;
+        const audio = new Audio(`data:audio/mp3;base64,${audioContent}`);
+        audio.play();
+      });
     } else if (key === ' ') {
       this.quizService.activeTeam.set(2);
-      console.log('team 2');
+      this.tts.speak(this.quizService.getTeamName(2)).subscribe((res: any) => {
+        const audioContent = res.audioContent;
+        const audio = new Audio(`data:audio/mp3;base64,${audioContent}`);
+        audio.play();
+      });
     }
   }
 }
