@@ -1,15 +1,16 @@
 import { Component } from '@angular/core';
-import { QuizService } from '../services/quiz.service';
 import { Router } from '@angular/router';
 
+import { QuizService } from '../../services/quiz.service';
+
 @Component({
-  selector: 'round',
+  selector: 'basic-round',
   standalone: true,
   template: `
-    <section class="grid text-center">
-      <h2 class="w-full font-semibold text-4xl text-neutral-800">
+    <div class="grid text-center">
+      <h1 class="w-full font-semibold text-4xl text-neutral-800">
         Round {{ this.quizService.roundTally() + 1 }}
-      </h2>
+      </h1>
 
       <hr class="w-24 mx-auto border-t-2 my-6 border-neutral-300" />
       <p class="text-xl">
@@ -48,10 +49,10 @@ import { Router } from '@angular/router';
           Incorrect
         </button>
       </div>
-    </section>
+    </div>
   `,
 })
-export class RoundComponent {
+export class BasicRoundComponent {
   isStealing = false;
 
   constructor(
@@ -60,6 +61,7 @@ export class RoundComponent {
   ) {}
 
   handleCorrectAnswer() {
+    // 5 points for initial answer and bonus, 10 for solid
     const map = {
       1: 5,
       2: 5,

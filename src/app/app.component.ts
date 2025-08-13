@@ -6,7 +6,6 @@ import { QuizService } from './services/quiz.service';
   selector: 'app-root',
   imports: [RouterOutlet],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
 })
 export class AppComponent {
   title = 'university-challenge-copycat';

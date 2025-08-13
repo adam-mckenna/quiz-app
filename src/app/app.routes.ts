@@ -1,9 +1,10 @@
 import { Routes } from '@angular/router';
-import { Team1Component } from './team1name/team1Name.component';
-import { Team2Component } from './team2name/team2Name.component';
-import { QuestionComponent } from './question/question.component';
-import { RoundComponent } from './round/round.component';
-import { BonusRoundComponent } from './bonus-round/round.component';
+
+import { Team1Component } from './rounds/team1name/team1Name.component';
+import { Team2Component } from './rounds/team2name/team2Name.component';
+import { PreroundQuestionComponent } from './rounds/preround-question/preround-question.component';
+import { BasicRoundComponent } from './rounds/basic-round/basic-round.component';
+import { BonusRoundComponent } from './rounds/bonus-round/bonus-round.component';
 
 export const routes: Routes = [
   {
@@ -16,11 +17,11 @@ export const routes: Routes = [
   },
   {
     path: 'question',
-    component: QuestionComponent,
+    component: PreroundQuestionComponent,
   },
   {
     path: 'round',
-    component: RoundComponent,
+    component: BasicRoundComponent,
   },
   {
     path: 'bonus-round',

@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
-import { QuizService } from '../services/quiz.service';
 import { Router } from '@angular/router';
-import { TtsService } from '../services/textToSpeech.service';
+
+import { QuizService } from '../../services/quiz.service';
+import { TextToSpeechService } from '../../services/textToSpeech.service';
 
 @Component({
-  selector: 'question',
+  selector: 'preround-question',
   standalone: true,
   template: `
     <div
@@ -13,7 +14,7 @@ import { TtsService } from '../services/textToSpeech.service';
       <p class="w-full text-neutral-500">
         Round {{ this.quizService.roundTally() + 1 }}
       </p>
-      <h2 class="w-full font-semibold text-4xl text-neutral-800">Question</h2>
+      <h1 class="w-full font-semibold text-4xl text-neutral-800">Question</h1>
     </div>
 
     @if (this.quizService.activeTeam()) {
@@ -61,19 +62,21 @@ import { TtsService } from '../services/textToSpeech.service';
     '(window:keydown)': 'onKeyDown($event)',
   },
 })
-export class QuestionComponent {
+export class PreroundQuestionComponent {
   hasSwitched: boolean = false;
 
   constructor(
     public quizService: QuizService,
-    public tts: TtsService,
+    public textToSpeechService: TextToSpeechService,
     private router: Router,
   ) {
+    // Reset the active team after each round
     this.quizService.activeTeam.set(0);
   }
 
   handleCorrectAnswer() {
     if (!this.quizService.activeTeam()) return;
+    // 5 points for a correct question
     this.quizService.addPoints(this.quizService.activeTeam(), 5);
     this.router.navigate(['/round']);
   }
@@ -85,6 +88,7 @@ export class QuestionComponent {
       return;
     }
     if (hasInterrupted && this.quizService.activeTeam()) {
+      // lose 5 points for interrupting
       this.quizService.addPoints(this.quizService.activeTeam(), -5);
     }
     this.switchActiveTeam();
@@ -96,22 +100,28 @@ export class QuestionComponent {
     this.hasSwitched = true;
   }
 
+  announceTeam(teamNumber: 1 | 2) {
+    this.textToSpeechService
+      .speak(this.quizService.getTeamName(teamNumber))
+      .subscribe((res: any) => {
+        const audioContent = res.audioContent;
+        const audio = new Audio(`data:audio/mp3;base64,${audioContent}`);
+        audio.play();
+      });
+  }
+
   onKeyDown({ key }: KeyboardEvent) {
     if (this.quizService.activeTeam()) return;
-    if (key === 'Enter') {
+
+    const teamOneKey = 'Enter';
+    const teamTwoKey = ' ';
+
+    if (key === teamOneKey) {
       this.quizService.activeTeam.set(1);
-      this.tts.speak(this.quizService.getTeamName(1)).subscribe((res: any) => {
-        const audioContent = res.audioContent;
-        const audio = new Audio(`data:audio/mp3;base64,${audioContent}`);
-        audio.play();
-      });
-    } else if (key === ' ') {
+      this.announceTeam(1);
+    } else if (key === teamTwoKey) {
       this.quizService.activeTeam.set(2);
-      this.tts.speak(this.quizService.getTeamName(2)).subscribe((res: any) => {
-        const audioContent = res.audioContent;
-        const audio = new Audio(`data:audio/mp3;base64,${audioContent}`);
-        audio.play();
-      });
+      this.announceTeam(2);
     }
   }
 }
