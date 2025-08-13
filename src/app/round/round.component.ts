@@ -6,32 +6,49 @@ import { Router } from '@angular/router';
   selector: 'round',
   standalone: true,
   template: `
-    <h2>Round</h2>
+    <section class="grid text-center">
+      <h2 class="w-full font-semibold text-4xl text-neutral-800">
+        Round {{ this.quizService.roundTally() + 1 }}
+      </h2>
 
-    <p>Question: {{ this.quizService.roundStage() }}</p>
-    <p>Level: {{ this.quizService.roundQuestionLevel() }}</p>
+      <hr class="w-24 mx-auto border-t-2 my-6 border-neutral-300" />
+      <p class="text-xl">
+        Question:
+        <span class="font-semibold">{{ this.quizService.roundStage() }}</span>
+      </p>
+      <p class="text-xl mb-8">
+        Level:
+        <span class="font-semibold">{{
+          this.quizService.questionLevelLabel()
+        }}</span>
+      </p>
 
-    <p>
-      Getting the points:
-      {{
-        this.isStealing
-          ? this.quizService.getOpposingTeam()
-          : this.quizService.activeTeam()
-      }}
-    </p>
+      <p class="text-neutral-500">Getting the points</p>
+      <p class="text-2xl font-bold mb-6">
+        {{
+          this.quizService.getTeamName(
+            this.isStealing
+              ? this.quizService.getOpposingTeam()
+              : this.quizService.activeTeam()
+          )
+        }}
+      </p>
 
-    <button
-      style="background: green; color: white"
-      (click)="this.handleCorrectAnswer()"
-    >
-      Correct
-    </button>
-    <button
-      style="background: green; color: white"
-      (click)="this.handleIncorrectAnswer()"
-    >
-      Incorrect
-    </button>
+      <div class="flex gap-4">
+        <button
+          class="cursor-pointer py-4 px-12 text-xl rounded bg-green-600 border-b-2 border-green-700 text-white uppercase font-bold transition-all hover:bg-green-700 active:scale-95"
+          (click)="this.handleCorrectAnswer()"
+        >
+          Correct
+        </button>
+        <button
+          class="cursor-pointer py-4 px-12 text-xl rounded bg-red-600 border-b-2 border-red-700 text-white uppercase font-bold transition-all hover:bg-red-700 active:scale-95"
+          (click)="this.handleIncorrectAnswer()"
+        >
+          Incorrect
+        </button>
+      </div>
+    </section>
   `,
 })
 export class RoundComponent {

@@ -49,6 +49,19 @@ export class QuizService {
     this.currentQuestionIndex.update((i) => i + 1);
   }
 
+  questionLevelLabel() {
+    if (this.roundQuestionLevel() === 1) {
+      return 'Normal';
+    }
+    if (this.roundQuestionLevel() === 2) {
+      return 'Bonus';
+    }
+    if (this.roundQuestionLevel() === 3) {
+      return 'Solid';
+    }
+    return 'None';
+  }
+
   iterateRound() {
     this.roundQuestionLevel.set(1);
     if (this.roundStage() === 3) {

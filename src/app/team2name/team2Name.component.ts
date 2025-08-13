@@ -8,11 +8,22 @@ import { TtsService } from '../services/textToSpeech.service';
   standalone: true,
   template: `
     <div
-      class="flex flex-wrap justify-center text-center gap-4 items-center mx-auto"
+      class="flex flex-wrap justify-center text-center gap-6 items-center mx-auto"
     >
-      <h2 class="w-full">Enter Team 2 Name</h2>
-      <input class="w-full bg-red-50" #nameInput />
-      <button (click)="setName(nameInput.value)">Next</button>
+      <h2 class="w-full font-semibold text-4xl text-neutral-800">
+        Team 2 name?
+      </h2>
+      <input
+        class="w-full mb-4 bg-neutral-100 text-xl border border-neutral-200 rounded p-4 placeholder:text-neutral-400"
+        placeholder="Team 2..."
+        #nameInput
+      />
+      <button
+        class="cursor-pointer py-4 px-12 text-xl rounded bg-green-600 border-b-2 border-green-700 text-white uppercase font-bold transition-all hover:bg-green-700 active:scale-95"
+        (click)="setName(nameInput.value)"
+      >
+        Next
+      </button>
     </div>
   `,
 })
